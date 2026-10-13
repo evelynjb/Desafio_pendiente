@@ -6,19 +6,36 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # 1. Leer archivo de Excel, teniendo en cuenta la ubicación en fila de las columnas donde se encuentre la información a buscar
 df = pd.read_excel('BdatosD.xlsx', header=1)
 
-# Limpiar posibles espacios en los nombres de las columnas
-df.columns = df.columns.str.strip()
+# 2. Extraer los números de clasif_edad SIN importar el separador ("A", "Y MAS", "-", etc.)
+numeros = df['clasif_edad'].str.findall(r'\d+')
 
-# 2. Tomar 50 filas
-df_50 = df.head(50)
+nuevas_edades = pd.DataFrame({
+    # El primer número es la edad mínima
+    'edad_min': numeros.apply(lambda x: int(x[0]) if len(x) > 0 else None),
+    # El último número es la edad máxima
+    'edad_max': numeros.apply(lambda x: int(x[-1]) if len(x) > 0 else None)
+})
+nuevas_edades['edad_min'] = pd.to_numeric(nuevas_edades['edad_min'], errors='coerce')
+nuevas_edades['edad_max'] = pd.to_numeric(nuevas_edades['edad_max'], errors='coerce')
 
-# 3. Filtrar columnas deseadas
-columnas_Cn = df_50[['clasif_edad', 'def_clas_edad', 'sexo_', 'aseguradora', 'conducta']]
+df = pd.concat([df, nuevas_edades], axis=1)
 
-# 4. Imprimir resumen
-print("Dimensiones:", columnas_Cn.shape)
-print("\nPrimeros registros:\n", columnas_Cn.head())
+# 3. Calcular promedio y desviación estándar
+promedio_edad_min = df['edad_min'].mean()
+desviacion_edad_min = df['edad_min'].std()
+
+print("--- ANÁLISIS DE DATOS ---")
+print(f"Promedio de edad mínima: {promedio_edad_min:.2f}")
+print(f"Desviación estándar de edad mínima: {desviacion_edad_min:.2f}")
+
+# 4. Filtrar las filas cuya edad mínima sea mayor o igual al promedio
+df_filtrado_promedio = df[df['edad_min'] >= promedio_edad_min]
+
+df_final = df_filtrado_promedio.head(50)
+
+columnas_deseadas = ['clasif_edad', 'edad_min', 'edad_max', 'def_clas_edad', 'sexo_', 'aseguradora', 'conducta']
+df_resultado = df_final[[c for c in columnas_deseadas if c in df_final.columns]]
 
 # 5. Guardar en Excel
-columnas_Cn.to_excel('BdatosD_filtrado.xlsx', index=False)
-print("\n¡Archivo Excel creado con éxito!")
+df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
+print('\n¡Archivo Excel creado con éxito con las edades separadas y filtradas!')
