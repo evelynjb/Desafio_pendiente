@@ -36,6 +36,10 @@ df_final = df_filtrado_promedio.head(50)
 columnas_deseadas = ['clasif_edad', 'edad_min', 'edad_max', 'def_clas_edad', 'sexo_', 'aseguradora', 'conducta']
 df_resultado = df_final[[c for c in columnas_deseadas if c in df_final.columns]]
 
+# Contar cuántas personas hay en cada tipo de conducta
+print("\n--- CONTEO POR CONDUCTA ---")
+print(df_resultado['conducta'].value_counts())
+
 # 5. Guardar en Excel
 df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
 print('\n¡Archivo Excel creado con éxito con las edades separadas y filtradas!')
