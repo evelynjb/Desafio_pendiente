@@ -70,6 +70,16 @@ def grafico_sexo(datos2):
 
 grafico_sexo(df_resultado) #Se llama la función 
 
+def analizar_conducta_edad(datos3):
+
+    tabla = pd.crosstab(datos3['def_clas_edad'], 
+                        datos3['conducta'])
+
+    print("-----Conducta según la edad-----")
+    print(tabla)
+
+analizar_conducta_edad(df_resultado)
+
 # 5. Guardar en Excel
 df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
 print('\n¡Archivo Excel creado con éxito con las edades separadas y filtradas!')
