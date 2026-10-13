@@ -72,7 +72,7 @@ grafico_sexo(df_resultado) #Se llama la función
 
 def analizar_conducta_edad(datos3):
 
-    tabla = pd.crosstab(datos3['def_clas_edad'], 
+    tabla = pd.crosstab(datos3['def_clas_edad'], #Esta funcion de pandas permite relacionar dos variables 
                         datos3['conducta'])
 
     print("-----Conducta según la edad-----")
