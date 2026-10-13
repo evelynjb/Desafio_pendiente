@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import matplotlib.pyplot as plt 
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # NOTA: Para evitar errores, también es posible leer un archivo .csv sin transformarlo a xlsx; solo transformar en caso de ser totalmente necesario.
@@ -39,6 +40,22 @@ df_resultado = df_final[[c for c in columnas_deseadas if c in df_final.columns]]
 # Contar cuántas personas hay en cada tipo de conducta
 print("\n--- CONTEO POR CONDUCTA ---")
 print(df_resultado['conducta'].value_counts())
+
+#Gráfica de las aseguradoras 
+def grafico_aseguradoras(datos):
+    cantidad = datos["aseguradora"].values_counts() #Cuenta la cantidad de aseguradoras que hay 
+
+    plt.figure(figsize=(10,5))  #Esta parte define el tamaño del gráfico 
+    plt.bar(cantidad)  #El tipo de dato que utilizaremos y los colores 
+    plt.title("Aseguradoras con mayor frecuencia")
+    plt.xlabel("Aseguradoras")
+    plt.ylabel("Cantidad de usuarios afiliados")
+
+    plt.xticks(rotation = 45) 
+    plt.tight_layout()
+    plt.show()
+
+grafico_aseguradoras(df_resultado['aseguradora']) #Se llama la función 
 
 # 5. Guardar en Excel
 df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
