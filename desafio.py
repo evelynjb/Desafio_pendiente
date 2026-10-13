@@ -46,7 +46,7 @@ def grafico_aseguradoras(datos):
     cantidad = datos['aseguradora'].value_counts()#Cuenta la cantidad de aseguradoras que hay 
 
     plt.figure(figsize=(10,5))  #Esta parte define el tamaño del gráfico 
-    plt.plot(cantidad, color="red", marker="*", markersize=10, markerfacecolor="green", markeredgecolor="blue")  #El tipo de dato que utilizaremos y los colores 
+    plt.plot(cantidad, color="red", marker="*", markersize=10, markerfacecolor="green", markeredgecolor="blue")  #El tipo de grafico que se quiere con susu caracteristicas de punto y color de puntos
     plt.title("Aseguradoras con mayor frecuencia")
     plt.xlabel("Aseguradoras")
     plt.ylabel("Cantidad de usuarios afiliados")
@@ -56,6 +56,19 @@ def grafico_aseguradoras(datos):
     plt.show()
 
 grafico_aseguradoras(df_resultado) #Se llama la función 
+
+#Gráfico del sexo
+def grafico_sexo(datos2): 
+    cantidad_sexo = datos2['sexo_'].value_counts() #Cuenta la cantidad de datos en sexo que se repiten 
+
+    plt.figure(figsize=(10,5)) #El tamaño de la gráfica 
+    plt.bar(cantidad_sexo.index, cantidad_sexo.values, color=["pink", "blue"]) #Funcion color con lista para que cada barra tenga un color distinto 
+    plt.title("Cantidad de pacientes con su género")
+    plt.xlabel("Género")
+    plt.ylabel("Cantidad de usuarios")
+    plt.show() #Muestra la gráfica 
+
+grafico_sexo(df_resultado) #Se llama la función 
 
 # 5. Guardar en Excel
 df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
