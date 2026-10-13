@@ -43,10 +43,10 @@ print(df_resultado['conducta'].value_counts())
 
 #Gráfica de las aseguradoras 
 def grafico_aseguradoras(datos):
-    cantidad = datos["aseguradora"].values_counts() #Cuenta la cantidad de aseguradoras que hay 
+    cantidad = datos['aseguradora'].value_counts()#Cuenta la cantidad de aseguradoras que hay 
 
     plt.figure(figsize=(10,5))  #Esta parte define el tamaño del gráfico 
-    plt.bar(cantidad)  #El tipo de dato que utilizaremos y los colores 
+    plt.plot(cantidad, color="red", marker="*", markersize=10, markerfacecolor="green", markeredgecolor="blue")  #El tipo de dato que utilizaremos y los colores 
     plt.title("Aseguradoras con mayor frecuencia")
     plt.xlabel("Aseguradoras")
     plt.ylabel("Cantidad de usuarios afiliados")
@@ -55,7 +55,7 @@ def grafico_aseguradoras(datos):
     plt.tight_layout()
     plt.show()
 
-grafico_aseguradoras(df_resultado['aseguradora']) #Se llama la función 
+grafico_aseguradoras(df_resultado) #Se llama la función 
 
 # 5. Guardar en Excel
 df_resultado.to_excel('BdatosD_filtrado.xlsx', index=False)
